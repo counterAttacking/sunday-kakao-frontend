@@ -1,11 +1,13 @@
-import { Avatar, Box, Container, Grid, IconButton, List, ListItemAvatar, ListItemButton, ListItemText, TextField } from "@mui/material";
+import { Avatar, Box, Container, Grid, IconButton, List, ListItemAvatar, ListItemButton, ListItemText, Modal, TextField } from "@mui/material";
 import ImageIcon from '@mui/icons-material/Image';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { friends } from './data';
 import { ChangeEvent, useState } from "react";
+import FriendAdd from "./components/FriendAdd";
 
 const Friends = (): JSX.Element => {
     const [friendsList, setFriendsList] = useState(friends);
+    const [isFriendAddOpened, setIsFriendAddOpened] = useState<boolean>(false);
 
     const friendNameChanged = (event: ChangeEvent<HTMLInputElement>) => {
         findFriends(event.currentTarget.value);
@@ -20,8 +22,19 @@ const Friends = (): JSX.Element => {
         }
     };
 
+    const openFriendAddModal = () => {
+        setIsFriendAddOpened(true);
+    };
+
+    const closeFriendAddModal = () => {
+        setIsFriendAddOpened(false);
+    };
+
     return (
         <Container>
+            <Modal open={isFriendAddOpened} onClose={closeFriendAddModal}>
+                <FriendAdd />
+            </Modal>
             <Box>
                 <Grid container>
                     <Grid item xs={10}>
@@ -34,7 +47,7 @@ const Friends = (): JSX.Element => {
                     </Grid>
                     <Grid item xs={2}>
                         <Box sx={{ p: "10px" }}>
-                            <IconButton color="primary" size="large">
+                            <IconButton color="primary" size="large" onClick={openFriendAddModal}>
                                 <PersonAddIcon />
                             </IconButton>
                         </Box>
